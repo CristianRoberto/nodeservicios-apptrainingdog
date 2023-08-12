@@ -18,7 +18,6 @@ const pool = new Pool({
 
 });
 
-
 const defectoUsers = async (req, res) => {
     res.send('Este es el metodo get por defecto!');
 };
@@ -111,8 +110,6 @@ try {
   }
 };
 
-
-
 const updateUser = async (req, res) => {
 const id = parseInt(req.params.id);
 const {cedula, correoelectronico, nombre,apellidos, direccion, telefono, password, foto } = req.body;
@@ -201,8 +198,6 @@ res.status(200).json(response.rows);
 console.log(response.rows);     
 };
 
-
-
 const getAdopcionById = async (req, res) => {
 const idcedula = parseInt(req.params.idcedula);
 const response = await pool.query('SELECT * FROM adopcion WHERE idcedula = $1', [idcedula]);
@@ -211,14 +206,14 @@ res.json(response.rows);
 
 
 const createAdopciones = async (req, res) => {
-const { foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass } = req.body;
-const response = await pool.query('INSERT INTO adopcion (foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass) VALUES ($1, $2, $3, $4, $5, $6, $7)', [ 
-    foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass ]);
+const { foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass , estadoadopcion} = req.body;
+const response = await pool.query('INSERT INTO adopcion (foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass, estadoadopcion) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [ 
+    foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass, estadoadopcion ]);
 //res.json(response.rows);
 res.json({
    message: 'Adopcion Exitosa',
     body: {
-      user: {foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass}
+      user: {foto, idcedula,idmascota,nombreusuario,apellidousuario, fecharetiro, pass, estadoadopcion}
     }
 })
 console.log("se Realizo correctamente su Adopcion");
