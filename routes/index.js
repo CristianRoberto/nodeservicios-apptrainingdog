@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { defectoUsers, getUsers, login, getUserById, createUser, recuperarContraseña, updateUser, deleteUser,
     getMascotasById, getMascotas, createMascotas, updateMascotas, deleteMascotas,
-    createAdopciones, getAdopcion, getAdopcionById, deleteAdopciones, updateAdopciones, getAdiestramiento, createAdiestramientos,
+    createAdopciones, getAdopcion, getAdopcionById, deleteAdopciones, updateAdopciones,updateAdopcionesestadoAdopcion, getAdiestramiento, createAdiestramientos,
     updateAdiestramientos, deleteAdiestramientos
 } = require('../controllers/index.controller');
 
@@ -28,7 +28,9 @@ router.get('/adopciones/', getAdopcion);
 router.get('/adopciones/:idcedula', getAdopcionById);
 router.post('/adopciones', createAdopciones);
 router.delete('/adopciones/:idadopcion', deleteAdopciones);
-router.put('/adopciones/:id', updateAdopciones)
+// router.put('/adopciones/:id', updateAdopciones)
+router.put('/adopciones/:idadopcion', updateAdopcionesestadoAdopcion)
+
 
 //router adestramientos
 router.get('/adiestramientos', getAdiestramiento);

@@ -193,14 +193,14 @@ res.json(`Mascota ${id} eliminado Correctamente`);
 
 //ControlersAdopciones
 const getAdopcion = async (req, res) => {
-const response = await pool.query('SELECT * FROM adopcion');
+const response = await pool.query('SELECT * FROM adopcion ORDER BY fecharetiro DESC');
 res.status(200).json(response.rows);
 console.log(response.rows);     
 };
 
 const getAdopcionById = async (req, res) => {
 const idcedula = parseInt(req.params.idcedula);
-const response = await pool.query('SELECT * FROM adopcion WHERE idcedula = $1', [idcedula]);
+const response = await pool.query('SELECT * FROM adopcion WHERE idcedula = $1 ORDER BY fecharetiro DESC', [idcedula]);
 res.json(response.rows);
 };
 
@@ -228,22 +228,41 @@ res.json(`Mascota ${idadopcion} eliminado Correctamente`);
 };
 
 
+const updateAdopcionesestadoAdopcion = async (req, res) => {
+  const idadopcion = parseInt(req.params.idadopcion);
+  const { estadoAdopcion } = req.body; // Solo necesitas el nuevo valor para el campo estadoAdopcion
+  const response = await pool.query('UPDATE adopcion SET estadoadopcion = $1 WHERE idadopcion = $2', [
+    estadoAdopcion,
+    idadopcion
+  ]);
+  res.json({
+    message: 'Se modificó el estado de adopción',
+    body: {
+      idadopcion,
+      estadoAdopcion
+    }
+  });
+};
+
+
+
+
 const updateAdopciones = async (req, res) => {
 const idadopcion = parseInt(req.params.id);
-const {idcedula, idmascota, nombreusuario,apellidousuario, fecharetiro, password } = req.body;
-const response = await pool.query('UPDATE adopcion SET idadopcion = $1, idcedula = $2, idmascota = $3, nombreusuario = $4, apellidousuario = $5, fecharetiro = $6 , password = $7  WHERE idadopcion = $1', [
+const {idcedula, idmascota, nombreusuario,apellidousuario, fecharetiro, pass } = req.body;
+const response = await pool.query('UPDATE adopcion SET idadopcion = $1, idcedula = $2, idmascota = $3, nombreusuario = $4, apellidousuario = $5, fecharetiro = $6 , pass = $7  WHERE idadopcion = $1', [
     idadopcion,
     idcedula, 
     idmascota, 
     nombreusuario,
     apellidousuario, 
     fecharetiro, 
-    password
+    pass
 ]);
 res.json({
     message: 'Se  modifico el usuario',
      body: {
-       user: {idcedula, idmascota, nombreusuario,apellidousuario, fecharetiro, password}
+       user: {idcedula, idmascota, nombreusuario,apellidousuario, fecharetiro, pass}
      }
  })
 };
@@ -332,6 +351,7 @@ getAdopcion,
 getAdopcionById,
 deleteAdopciones,
 updateAdopciones,
+updateAdopcionesestadoAdopcion,
 getAdiestramiento,
 createAdiestramientos,
 deleteAdiestramientos,
